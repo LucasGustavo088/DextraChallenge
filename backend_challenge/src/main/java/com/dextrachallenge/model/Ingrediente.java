@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Ingrediente {
+public class Ingrediente implements java.io.Serializable, Cloneable{
 	private int id;
 	private String descricao;
 	private double preco;
@@ -19,6 +19,12 @@ public class Ingrediente {
 		this.preco = preco;
 		this.quantidade = quantidade;
 	}
+
+	public Ingrediente() {
+		super();
+	}
+
+
 
 	public int getId() {
 		return id;
@@ -50,6 +56,12 @@ public class Ingrediente {
 
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
+	}
+
+	@Override
+	public String toString() {
+		return "Ingrediente [id=" + id + ", descricao=" + descricao + ", preco=" + preco + ", quantidade=" + quantidade
+				+ "]";
 	}
 	
 }

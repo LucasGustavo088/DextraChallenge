@@ -1,6 +1,7 @@
 package com.dextrachallenge.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dextrachallenge.model.ComboIngredientes;
 import com.dextrachallenge.model.Ingrediente;
 import com.dextrachallenge.model.Produto;
 import com.dextrachallenge.service.ProdutoService;
@@ -25,7 +27,7 @@ import com.google.gson.GsonBuilder;
 import ch.qos.logback.core.net.SyslogOutputStream;
 
 @RestController
-@RequestMapping(value = "/produto")
+@RequestMapping(value = "/produto", produces = "application/json;charset=UTF-8")
 public class ProdutoController {
 	
 	private ProdutoService ls = new ProdutoService();
@@ -35,6 +37,9 @@ public class ProdutoController {
 		produtos = ls.produtos;
 	}
 	
+	/*
+	 * Obtém todos os produtos (lanches) do cardápio
+	 * */
 	@RequestMapping(value = "/cardapio", method = RequestMethod.GET)
 	public String listar() {
 		ArrayList listProdutos = new ArrayList<Produto>(produtos.values());
@@ -42,6 +47,9 @@ public class ProdutoController {
 		return Json.paraJson(listProdutos);
 	}
 	
+	/*
+	 * Obtém um determinado produto (lanche) a partir do ID
+	 * */
 	@RequestMapping(value = "/cardapio/{id}", method = RequestMethod.GET)
 	public String obterProduto(@PathVariable("id") Long id) {
 		Produto produto = produtos.get(id);
@@ -49,9 +57,13 @@ public class ProdutoController {
 		return Json.paraJson(produto);
 	}
 	
-	@RequestMapping(value = "/cardapio_personalizado", method = RequestMethod.POST)
-	public String obterProdutoPersonalizado(@RequestBody List<Ingrediente> ingredientes) {
-		Produto produto = ls.obterProdutoCustomizado(ingredientes);
+	/*
+	 * Obtém um produto (lanche) personalizado passando os ingredientes como parâmetro
+	 * */
+	@RequestMapping(value = "/cardapio_personalizado", method = RequestMethod.POST, consumes = "application/json")
+	public String obterProdutoPersonalizado(@RequestBody Ingrediente[] ingredienteArray) {
+		List<Ingrediente> list = Arrays.asList(ingredienteArray);
+		Produto produto = ls.obterProdutoCustomizado(list);
 		
 		return Json.paraJson(produto);
 	}

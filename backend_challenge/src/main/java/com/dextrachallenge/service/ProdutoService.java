@@ -20,6 +20,7 @@ import lombok.Setter;
 public class ProdutoService {
 	
 	@Getter public HashMap<Long, Produto> produtos = new HashMap<Long,Produto>();
+	@Getter private HashMap<Long, Ingrediente> ingredientes = new HashMap<Long,Ingrediente>();
 	
 	private static Ingrediente alface;
 	private static Ingrediente bacon;
@@ -28,11 +29,11 @@ public class ProdutoService {
 	private static Ingrediente queijo;
 	
 	private double descontoLight = 0.10;
+
 	
 	public ProdutoService() {
 		criarEntidades();
 	}
-	
 	
 	/*
 	 * Criam-se as entidades (produtos e ingredientes) para ficar na memória da aplicação. Podendo ser substituído por um banco, H2, etc futuramente.
@@ -45,6 +46,12 @@ public class ProdutoService {
 		hamburguerCarne = new Ingrediente(3, "Hamburguer de Carne", 3.00, 1);
 		ovo = new Ingrediente(4, "Ovo", 0.80, 1);
 		queijo = new Ingrediente(5, "Queijo", 1.50, 1 );
+		
+		ingredientes.put((long) 1, alface);
+		ingredientes.put((long) 2, bacon);
+		ingredientes.put((long) 3, hamburguerCarne);
+		ingredientes.put((long) 4, ovo);
+		ingredientes.put((long) 5, queijo);
 		
 		/* ============== Instanciando os lanches ============== */
 		
@@ -116,6 +123,13 @@ public class ProdutoService {
 
 		for (Ingrediente ingrediente : ingredientes) {
 			
+			Ingrediente ingredienteSistema = null;
+			for(Ingrediente ingredienteSistemaEach : this.ingredientes.values()) {
+				if(ingrediente.getId() == ingredienteSistemaEach.getId()) {
+					ingredienteSistema = ingredienteSistemaEach;
+				}
+			}
+			
 			// Caso tenha alface
 			if(ingrediente.getId() == alface.getId()) {
 				possuiAlface = true;
@@ -138,7 +152,7 @@ public class ProdutoService {
 			}
 			
 			//Calculo do preço total
-			preco = ingrediente.getPreco() * ingrediente.getQuantidade();
+			preco = ingredienteSistema.getPreco() * ingrediente.getQuantidade();
 			precoTotal += preco;
 		}
 		
