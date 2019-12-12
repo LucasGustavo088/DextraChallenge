@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
-
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/produto", produces = "application/json;charset=UTF-8")
 public class ProdutoController {

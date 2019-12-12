@@ -53,6 +53,8 @@ public class ProdutoService {
 		ingredientes.put((long) 4, ovo);
 		ingredientes.put((long) 5, queijo);
 		
+		String foto = "https://abrilvejario.files.wordpress.com/2017/12/1-foto-2-notas-le-max_duro-de-matar.jpg?quality=70&strip=info";
+		
 		/* ============== Instanciando os lanches ============== */
 		
 		//X-BACON
@@ -60,20 +62,20 @@ public class ProdutoService {
 		xBaconIgredientes.add(bacon);
 		xBaconIgredientes.add(hamburguerCarne);
 		xBaconIgredientes.add(queijo);
-		Produto xBacon = new Produto(1, "X-Bacon", xBaconIgredientes, calcularPrecoTotalProduto(xBaconIgredientes));
+		Produto xBacon = new Produto(1, "X-Bacon", xBaconIgredientes, calcularPrecoTotalProduto(xBaconIgredientes), foto);
 		
 		// -- X-Burguer
 	    List<Ingrediente> xBurguerIngredientes = new ArrayList<Ingrediente>();
 	    xBurguerIngredientes.add(hamburguerCarne);
 	    xBurguerIngredientes.add(queijo);
-	    Produto xBurguer = new Produto(2, "X-Burguer", xBurguerIngredientes, calcularPrecoTotalProduto(xBurguerIngredientes));
+	    Produto xBurguer = new Produto(2, "X-Burguer", xBurguerIngredientes, calcularPrecoTotalProduto(xBurguerIngredientes), foto);
 
 	    // -- X-Egg
 	    List<Ingrediente> xEggIngredientes = new ArrayList<Ingrediente>();
 	    xEggIngredientes.add(ovo);
 	    xEggIngredientes.add(hamburguerCarne);
 	    xEggIngredientes.add(queijo);
-	    Produto xEgg = new Produto(3, "X-Egg", xEggIngredientes, calcularPrecoTotalProduto(xEggIngredientes));
+	    Produto xEgg = new Produto(3, "X-Egg", xEggIngredientes, calcularPrecoTotalProduto(xEggIngredientes), foto);
 
 	    // -- X-Egg Bacon
 	    List<Ingrediente> xEggBaconIngredientes = new ArrayList<Ingrediente>();
@@ -81,14 +83,14 @@ public class ProdutoService {
 	    xEggBaconIngredientes.add(ovo);
 	    xEggBaconIngredientes.add(hamburguerCarne);
 	    xEggBaconIngredientes.add(queijo);
-	    Produto xEggBacon = new Produto(4, "X-Egg Bacon", xEggBaconIngredientes, calcularPrecoTotalProduto(xEggBaconIngredientes));
+	    Produto xEggBacon = new Produto(4, "X-Egg Bacon", xEggBaconIngredientes, calcularPrecoTotalProduto(xEggBaconIngredientes), foto);
 
 	    // -- X-Salada
 	    List<Ingrediente> xSaladaIngredientes = new ArrayList<Ingrediente>();
 	    xSaladaIngredientes.add(alface);
 	    xSaladaIngredientes.add(hamburguerCarne);
 	    xSaladaIngredientes.add(queijo);
-	    Produto xSalada = new Produto(5, "X-Salada", xSaladaIngredientes, calcularPrecoTotalProduto(xSaladaIngredientes));
+	    Produto xSalada = new Produto(5, "X-Salada", xSaladaIngredientes, calcularPrecoTotalProduto(xSaladaIngredientes), foto);
 	    
 		produtos.put((long) 1, xBacon);
 		produtos.put((long) 2, xBurguer);

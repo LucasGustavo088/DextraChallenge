@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "./auth";
 
-const baseUrl = "http://ec2-34-220-121-112.us-west-2.compute.amazonaws.com/api/v1/";
+const baseUrl = "http://localhost:8080/";
 const api = axios.create({
     baseURL: baseUrl
 });

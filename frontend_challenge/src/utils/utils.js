@@ -32,6 +32,18 @@ class Utils {
         return baseUrl;
     }
 
+    static formatarReal = (int, comRS = false) => {
+
+        if(comRS) {
+            int = int.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
+        } else {
+            int = int.toLocaleString('pt-br', {minimumFractionDigits: 2});
+        }
+
+        return int;
+    }
+    
+
     static validarData = (data) => {
         let retorno = false;
 

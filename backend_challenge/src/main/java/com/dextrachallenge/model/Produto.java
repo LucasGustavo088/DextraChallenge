@@ -10,14 +10,29 @@ public class Produto {
 	private String descricao;
 	private List<Ingrediente> ingredientes;
 	private double precoTotal;
+	private String foto;
 	
-	public Produto(int id, String descricao, List<Ingrediente> ingredientes, double precoTotal) {
+	public Produto(int id, String descricao, List<Ingrediente> ingredientes, double precoTotal, String foto) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
 		this.ingredientes = ingredientes;
 		this.precoTotal = precoTotal;
+		this.foto = foto;
 	}
+	
+
+	public String getImagem() {
+		return foto;
+	}
+
+
+
+	public void setImagem(String imagem) {
+		this.foto = imagem;
+	}
+
+
 
 	public Produto() {
 		// TODO Auto-generated constructor stub

@@ -19,21 +19,18 @@ export default class Localizacao extends React.Component {
   
   constructor(props) {
     super(props);
-    this.getLocalizacaoAjax();
+    this.getProdutosAjax();
 
     this.state = {
       tableData: []
     }
   };
 
-  getLocalizacaoAjax = () => {
-    let url = api.baseUrl + "localizacao";
+  getProdutosAjax = () => {
+    let url = api.baseUrl + "produto/cardapio";
     axios({
       method: 'get',
-      url: url,
-      headers: {
-        "Authorization" : getToken()
-      } 
+      url: url
     }).then(res => {
       console.log('res', res);
       if(typeof res.data.data.localizacoesDisponiveis != "undefined") {
@@ -83,7 +80,7 @@ export default class Localizacao extends React.Component {
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
-              <h4 style={styles.cardTitleWhite}>Localização</h4>
+              <h4 style={styles.cardTitleWhite}>Produtos</h4>
               <p style={styles.cardCategoryWhite}>
                 {/* <Link to="/admin/device/create-device">
                   <Button style={{color: "white"}}>Adicionar aparelho</Button>
@@ -93,7 +90,7 @@ export default class Localizacao extends React.Component {
             <CardBody>
               <Table
                 tableHeaderColor="primary"
-                tableHead={["Estado", "Cidade", "Bairro", "Total de equipamentos"]}
+                tableHead={["ID", "Descrição", "Ingredientes", "Preço total"]}
                 tableData={this.state.tableData}
               />
             </CardBody>

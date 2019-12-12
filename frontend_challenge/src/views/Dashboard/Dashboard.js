@@ -30,6 +30,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
+import Add from "@material-ui/icons/Add";
 
 import { bugs, website, server } from "variables/general.js";
 
@@ -43,62 +44,137 @@ import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js"
 import api from "services/api";
 import axios from "axios";
 import { getToken } from "services/auth";
-
+import Utils from "utils/utils";
+import { Link, Button } from "@material-ui/core";
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 class Dashboard extends React.Component {
-  
+
   constructor(props) {
     super(props);
-    this.getDeviceAjax();
-    this.getLocalizacaoAjax();
+    this.getProdutoAjax();
+
     this.state = {
-      qtdAparelhos: 0,
-      qtdPerfisAmostra: 2,
-      qtdLocalizacoes: 0
+      tableData: [],
+      carrinho: [],
+      valorTotalCarrinho: 0,
+      produtos: [],
+      modalCriarProdutoCustomizado: false
     }
   };
-  
-  getDeviceAjax = () => {
-    let url = api.baseUrl + "equipamento";
+
+
+
+  getProdutoAjax = () => {
+    let url = api.baseUrl + "produto/cardapio";
     axios({
       method: 'get',
-      url: url,
-      headers: {
-        "Authorization" : getToken()
-      } 
+      url: url
     }).then(res => {
-      console.log('res', res);
-      if(typeof res.data.data.equipamentosCadastrados != "undefined") {
-        this.setState({
-          qtdAparelhos: res.data.data.equipamentosCadastrados.length
-        });
+      if (typeof res.data != 'undefined') {
+        var produtos = res.data;
+
+        if (produtos.length > 0) {
+          this.setState({ produtos: produtos });
+          var tableData = [];
+          produtos.forEach((item, index) => {
+            tableData.push([item.id, item.descricao, item.ingredientes.map((item, index) => (index > 0 ? ', ' + item.descricao : item.descricao)), Utils.formatarReal(item.precoTotal, true), <img style={{ borderRadius: "2px" }} height="100" weigth="auto" src={item.foto} />, <Button onClick={() => this.adicionarProdutoCarrinho(item.id)}><Add style={{ color: "#00bae0" }} /></Button>]);
+          });
+
+          this.setState({ tableData: tableData });
+        }
       }
     });
   }
 
-  getLocalizacaoAjax = () => {
-    let url = api.baseUrl + "localizacao";
-    axios({
-      method: 'get',
-      url: url,
-      headers: {
-        "Authorization" : getToken()
-      } 
-    }).then(res => {
-      console.log('res', res);
-      if(typeof res.data.data.localizacoesDisponiveis != "undefined") {
-        this.setState({qtdLocalizacoes: res.data.data.localizacoesDisponiveis.length});
+  adicionarProdutoCarrinho = (idProduto) => {
+    var carrinho = this.state.carrinho;
+
+    this.state.produtos.forEach((item) => {
+      if (item.id == idProduto) {
+        carrinho.push(item);
       }
     });
+
+    this.recalcularValorCarrinho();
+  }
+
+  recalcularValorCarrinho = () => {
+    var valorTotalCarrinho = 0;
+    this.state.carrinho.forEach((item) => {
+      valorTotalCarrinho += item.precoTotal;
+    });
+
+    this.setState({ valorTotalCarrinho: valorTotalCarrinho });
+  }
+
+  handleCloseModalCriarProdutoCustomizado = () => {
+
+  }
+
+  handleOpenModalCriarProdutoCustomizado = () => {
+
   }
 
   render() {
+    const styles = {
+      modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      paper: {
+        backgroundColor: "#fff",
+        border: '2px solid #000',
+        // boxShadow: theme.shadows[5],
+        padding: "10px",
+      },
+    };
+
     const { classes } = this.props;
     return (
       <div>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={styles.modal}
+          open={this.state.modalCriarProdutoCustomizado}
+          onClose={this.handleCloseModalCriarProdutoCustomizado}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={this.state.modalCriarProdutoCustomizado}>
+            <div className={styles.paper}>
+              <h2 id="transition-modal-title">Transition modal</h2>
+              <p id="transition-modal-description">react-transition-group animates me.</p>
+            </div>
+          </Fade>
+        </Modal>
         <GridContainer>
           <GridItem xs={12} sm={12} md={12}>
-            <h1>Selecione o Lanche</h1>
+            <Card>
+              <CardHeader color="primary">
+                <h4 style={styles.cardTitleWhite}>PDV - Lanchonete Dextra</h4>
+                <Button style={{ color: "white" }}>Adicionar produto personalizado</Button>
+              </CardHeader>
+              <CardBody>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={["ID", "Descrição", "Ingredientes", "Preço total", "Foto", "Ações"]}
+                  tableData={this.state.tableData}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={12} md={6} style={{ position: 'fixed', bottom: "50px", left: "0px", width: "250px", zIndex: "4" }}>
+            <CardHeader color="primary">
+              <strong><h3 style={styles.cardTitleWhite}>Valor total: {Utils.formatarReal(this.state.valorTotalCarrinho, true)}</h3></strong>
+            </CardHeader>
           </GridItem>
         </GridContainer>
       </div>
