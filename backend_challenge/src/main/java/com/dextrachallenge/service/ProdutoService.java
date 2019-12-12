@@ -20,7 +20,8 @@ import lombok.Setter;
 public class ProdutoService {
 	
 	@Getter public HashMap<Long, Produto> produtos = new HashMap<Long,Produto>();
-	@Getter private HashMap<Long, Ingrediente> ingredientes = new HashMap<Long,Ingrediente>();
+	@Getter
+	public HashMap<Long, Ingrediente> ingredientes = new HashMap<Long,Ingrediente>();
 	
 	private static Ingrediente alface;
 	private static Ingrediente bacon;
@@ -29,6 +30,8 @@ public class ProdutoService {
 	private static Ingrediente queijo;
 	
 	private double descontoLight = 0.10;
+	
+	private int countId = 0;
 
 	
 	public ProdutoService() {
@@ -100,15 +103,16 @@ public class ProdutoService {
 	}
 	
 	/*
-	 * Cria-se um produto customizado a partir dos ingredientes inseridos
+	 * Cria-se um produto a partir dos ingredientes inseridos
 	 * */
-	public Produto obterProdutoCustomizado(List<Ingrediente> ingredientes) {
-		
+	public Produto obterProduto(List<Ingrediente> ingredientes) {
+		String foto = "https://cultura.estadao.com.br/blogs/divirta-se/wp-content/uploads/sites/265/2019/05/Menca-Orlando-Burger-Andr%C3%A9-Olivetto.jpg";
 		Produto produtoPersonalizado = new Produto();
-		produtoPersonalizado.setId(0);
-		produtoPersonalizado.setDescricao("Personalizado");
+		produtoPersonalizado.setId(++countId);
+		produtoPersonalizado.setDescricao("Novo produto");
 		produtoPersonalizado.setIngredientes(ingredientes);
 		produtoPersonalizado.setPrecoTotal(calcularPrecoTotalProduto(ingredientes));
+		produtoPersonalizado.setImagem(foto);
 		
 		return produtoPersonalizado;
 	}

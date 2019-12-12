@@ -31,6 +31,8 @@ import CardFooter from "components/Card/CardFooter.js";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
 import Add from "@material-ui/icons/Add";
+import Remove from "@material-ui/icons/Remove";
+import Refresh from "@material-ui/icons/Refresh";
 
 import { bugs, website, server } from "variables/general.js";
 
@@ -48,24 +50,28 @@ import Utils from "utils/utils";
 import { Link, Button } from "@material-ui/core";
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
+import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import Fade from '@material-ui/core/Fade';
 
 class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
+    this.getIngredientesAjax();
     this.getProdutoAjax();
 
     this.state = {
-      tableData: [],
+      tableDataProdutos: [],
+      tableDataCarrinho: [],
       carrinho: [],
       valorTotalCarrinho: 0,
       produtos: [],
-      modalCriarProdutoCustomizado: false
+      modalCriarProduto: false,
+      novoProduto: null,
+      ingredientes: [],
+      tableIngrediente: []
     }
   };
-
-
 
   getProdutoAjax = () => {
     let url = api.baseUrl + "produto/cardapio";
@@ -78,27 +84,146 @@ class Dashboard extends React.Component {
 
         if (produtos.length > 0) {
           this.setState({ produtos: produtos });
-          var tableData = [];
+          var tableDataProdutos = [];
           produtos.forEach((item, index) => {
-            tableData.push([item.id, item.descricao, item.ingredientes.map((item, index) => (index > 0 ? ', ' + item.descricao : item.descricao)), Utils.formatarReal(item.precoTotal, true), <img style={{ borderRadius: "2px" }} height="100" weigth="auto" src={item.foto} />, <Button onClick={() => this.adicionarProdutoCarrinho(item.id)}><Add style={{ color: "#00bae0" }} /></Button>]);
+            tableDataProdutos.push([item.id, item.descricao, item.ingredientes.map((item, index) => (index > 0 ? ', ' + item.descricao : item.descricao)), Utils.formatarReal(item.precoTotal, true), <img style={{ borderRadius: "2px" }} height="100" weigth="auto" src={item.foto} />, <Button onClick={() => this.adicionarProdutoFinalizacaoCarrinho(item.id)}><Add style={{ color: "#00bae0" }} /></Button>]);
           });
 
-          this.setState({ tableData: tableData });
+          this.setState({ tableDataProdutos: tableDataProdutos });
         }
       }
     });
   }
 
-  adicionarProdutoCarrinho = (idProduto) => {
-    var carrinho = this.state.carrinho;
+  getIngredientesAjax = () => {
+    let url = api.baseUrl + "produto/ingredientes";
+    axios({
+      method: 'get',
+      url: url
+    }).then(res => {
+      if (typeof res.data != 'undefined') {
+        var ingredientes = res.data;
+
+        if (ingredientes.length > 0) {
+          this.setState({ ingredientes: ingredientes });
+        }
+      }
+    });
+  }
+
+  adicionarProdutoFinalizacaoCarrinho = (idProduto) => {
+    var novoProduto = this.state.novoProduto;
 
     this.state.produtos.forEach((item) => {
       if (item.id == idProduto) {
-        carrinho.push(item);
+        novoProduto = item;
+
+        var novoIngredientesExistentes = [];
+        novoProduto.ingredientesExistentes = this.state.ingredientes;
+        novoProduto.ingredientesExistentes.forEach((itemIngredienteExistente) => {
+
+          itemIngredienteExistente.quantidade = 0;
+          novoProduto.ingredientes.forEach((itemIngrediente) => {
+            if (itemIngredienteExistente.id == itemIngrediente.id) {
+              itemIngredienteExistente.quantidade = itemIngrediente.quantidade;
+            }
+          });
+          novoIngredientesExistentes.push(itemIngredienteExistente);
+        });
+
+        novoProduto.ingredientes = novoIngredientesExistentes;
+
+        this.setState({ novoProduto: novoProduto });
+        this.atualizarTableIngrediente(novoProduto);
       }
     });
 
     this.recalcularValorCarrinho();
+    this.atualizarNovoProdutoCarrinhoAJax();
+  }
+
+
+  adicionarIngredienteNovoProduto = (idIngrediente) => {
+    let novoProduto = this.state.novoProduto;
+
+    novoProduto.ingredientes.filter((item) => {
+      if (idIngrediente == item.id) {
+        console.log(item.quantidade);
+        return (++item.quantidade);
+      }
+    });
+
+
+    this.setState({ novoProduto: novoProduto });
+    this.atualizarNovoProdutoCarrinhoAJax();
+  }
+
+  refazerProduto = () => {
+    this.setState({novoProduto: null});
+  }
+
+  removeIngredienteNovoProduto = (idIngrediente) => {
+    let novoProduto = this.state.novoProduto;
+
+    novoProduto.ingredientes.filter((item) => {
+      if (idIngrediente == item.id) {
+
+        if(item.quantidade != 0) {
+          return (--item.quantidade);
+        }
+        return item.quantidade;
+      }
+    });
+
+
+    this.setState({ novoProduto: novoProduto });
+    this.atualizarNovoProdutoCarrinhoAJax();
+  }
+
+  atualizarTableIngrediente = (novoProduto) => {
+
+    let tableIngrediente = [];
+    novoProduto.ingredientes.forEach((item) => {
+      tableIngrediente.push([item.descricao, item.quantidade,
+      <React.Fragment>
+        <Button onClick={() => this.adicionarIngredienteNovoProduto(item.id)}><Add style={{ color: "#00bae0" }} /></Button>
+        <Button onClick={() => this.removeIngredienteNovoProduto(item.id)}><Remove style={{ color: "#00bae0" }} /></Button>
+      </React.Fragment>
+      
+      ]);
+    });
+    this.setState({ tableIngrediente: tableIngrediente });
+  }
+
+  adicionarNovoProdutoCarrinho = () => {
+    let carrinho = this.state.carrinho;
+    carrinho.push(this.state.novoProduto);
+    this.setState({carrinho: carrinho, novoProduto: null, modalCriarProduto: false});
+
+    this.recalcularValorCarrinho();
+  }
+
+  atualizarNovoProdutoCarrinhoAJax = () => {
+    let novoProduto = this.state.novoProduto;
+    
+    if(novoProduto != null) {
+      let url = api.baseUrl + "produto/obter_produto";
+      axios({
+        method: 'post',
+        url: url,
+        data: novoProduto.ingredientes,
+        headers: {
+          'accept': 'application/json',
+          'content-type': 'application/json'
+        }
+      }).then(res => {
+        if (typeof res.data != 'undefined') {
+          novoProduto = res.data;
+          this.atualizarTableIngrediente(novoProduto);
+          this.setState({novoProduto: novoProduto});
+        }
+      });
+    }
   }
 
   recalcularValorCarrinho = () => {
@@ -110,12 +235,30 @@ class Dashboard extends React.Component {
     this.setState({ valorTotalCarrinho: valorTotalCarrinho });
   }
 
-  handleCloseModalCriarProdutoCustomizado = () => {
+  removerProdutoCarrinho = (idProduto) => {
+    let carrinho = this.state.carrinho;
+    
+    let novoCarrinho = [];
+    carrinho.forEach((item) => {
+      if(item.id != idProduto) {
+        novoCarrinho.push(item);
+      }
+    });
 
+    this.setState({carrinho: novoCarrinho});
+    this.recalcularValorCarrinho();
   }
 
-  handleOpenModalCriarProdutoCustomizado = () => {
+  handleCloseModalCriarProduto = () => {
+    this.setState({
+      modalCriarProduto: false
+    });
+  }
 
+  handleOpenModalCriarProduto = () => {
+    this.setState({
+      modalCriarProduto: true
+    });
   }
 
   render() {
@@ -127,32 +270,73 @@ class Dashboard extends React.Component {
       },
       paper: {
         backgroundColor: "#fff",
-        border: '2px solid #000',
-        // boxShadow: theme.shadows[5],
+        boxShadow: "60px -16px teal;",
         padding: "10px",
       },
     };
-
     const { classes } = this.props;
+    
+    let tableDataCarrinho = [];
+    this.state.carrinho.forEach((item) => {
+      tableDataCarrinho.push([item.id, item.descricao, item.ingredientes.map((item, index) => (index > 0 ? ', ' + item.descricao : item.descricao)), Utils.formatarReal(item.precoTotal, true), <img style={{ borderRadius: "2px" }} height="100" weigth="auto" src={item.foto} />, <Button onClick={() => this.removerProdutoCarrinho(item.id)}><Remove style={{ color: "#00bae0" }} /></Button>]);
+    });
+
     return (
       <div>
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
-          className={styles.modal}
-          open={this.state.modalCriarProdutoCustomizado}
-          onClose={this.handleCloseModalCriarProdutoCustomizado}
+          style={styles.modal}
+          open={this.state.modalCriarProduto}
+          onClose={this.handleCloseModalCriarProduto}
           closeAfterTransition
           BackdropComponent={Backdrop}
           BackdropProps={{
             timeout: 500,
           }}
         >
-          <Fade in={this.state.modalCriarProdutoCustomizado}>
-            <div className={styles.paper}>
-              <h2 id="transition-modal-title">Transition modal</h2>
-              <p id="transition-modal-description">react-transition-group animates me.</p>
-            </div>
+          <Fade in={this.state.modalCriarProduto}>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={12}>
+                <Card>
+                  {this.state.novoProduto == null ?
+                    <React.Fragment>
+                      <CardHeader color="primary">
+                        <h4 style={styles.cardTitleWhite}>Adicionar produto</h4>
+                      </CardHeader>
+                      <CardBody>
+                        <Table
+                          tableHeaderColor="primary"
+                          tableHead={["ID", "Descrição", "Ingredientes", "Preço total", "Foto", "Ações"]}
+                          tableData={this.state.tableDataProdutos}
+                        />
+                      </CardBody>
+                    </React.Fragment>
+                    :
+                    ""}
+
+                  {this.state.novoProduto != null ?
+                    <Card>
+                      <CardHeader color="primary">
+                        <h4 style={styles.cardTitleWhite}>Produto</h4>
+                      </CardHeader>
+                      <CardBody>
+                        <Table
+                          tableHeaderColor="primary"
+                          tableHead={["Ingrediente", "Quantidade", "Ações"]}
+                          tableData={this.state.tableIngrediente}
+                        />
+                        <p>Valor total: {Utils.formatarReal(this.state.novoProduto.precoTotal, true)}</p>
+                        <Button color="primary" onClick={this.refazerProduto}><Refresh /> Refazer produto </Button>
+                        <Button color="primary" onClick={this.adicionarNovoProdutoCarrinho}><Add /> Adicionar produto no carrinho </Button>
+                      </CardBody>
+                    </Card>
+                    :
+                    ""
+                  }
+                </Card>
+              </GridItem>
+            </GridContainer>
           </Fade>
         </Modal>
         <GridContainer>
@@ -160,13 +344,13 @@ class Dashboard extends React.Component {
             <Card>
               <CardHeader color="primary">
                 <h4 style={styles.cardTitleWhite}>PDV - Lanchonete Dextra</h4>
-                <Button style={{ color: "white" }}>Adicionar produto personalizado</Button>
+                <Button style={{ color: "white" }} onClick={this.handleOpenModalCriarProduto}>Adicionar produto</Button>
               </CardHeader>
               <CardBody>
                 <Table
                   tableHeaderColor="primary"
                   tableHead={["ID", "Descrição", "Ingredientes", "Preço total", "Foto", "Ações"]}
-                  tableData={this.state.tableData}
+                  tableData={tableDataCarrinho}
                 />
               </CardBody>
             </Card>
@@ -174,6 +358,7 @@ class Dashboard extends React.Component {
           <GridItem xs={12} sm={12} md={6} style={{ position: 'fixed', bottom: "50px", left: "0px", width: "250px", zIndex: "4" }}>
             <CardHeader color="primary">
               <strong><h3 style={styles.cardTitleWhite}>Valor total: {Utils.formatarReal(this.state.valorTotalCarrinho, true)}</h3></strong>
+              <Button style={{ color: "white" }}><ShoppingCart /> {this.state.carrinho.length} produtos no carrinho</Button>
             </CardHeader>
           </GridItem>
         </GridContainer>

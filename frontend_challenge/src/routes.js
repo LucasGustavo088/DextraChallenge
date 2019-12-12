@@ -18,6 +18,7 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
+import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
@@ -43,6 +44,7 @@ import CreatePerfilAmostras from "views/PerfilAmostras/CreatePerfilAmostras";
 import Localizacao from "views/Localizacao/Localizacao";
 import VisualizarPerfilAmostra from "views/PerfilAmostras/VisualizarPerfilAmostra";
 import VisualizarAmostraEquipamento from "views/PerfilAmostras/VisualizarAmostraEquipamento";
+import Carrinho from "views/Carrinho/Carrinho";
 
 const dashboardRoutes = [
   {

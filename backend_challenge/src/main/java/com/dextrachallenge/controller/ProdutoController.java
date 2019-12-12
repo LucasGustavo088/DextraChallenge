@@ -33,9 +33,11 @@ public class ProdutoController {
 	
 	private ProdutoService ls = new ProdutoService();
 	private HashMap<Long, Produto> produtos;
+	private HashMap<Long, Ingrediente> ingredientes;
 	
 	public ProdutoController() {
 		produtos = ls.produtos;
+		ingredientes = ls.ingredientes;
 	}
 	
 	/*
@@ -59,14 +61,24 @@ public class ProdutoController {
 	}
 	
 	/*
-	 * Obtém um produto (lanche) personalizado passando os ingredientes como parâmetro
+	 * Obtém um produto (lanche) passando os ingredientes como parâmetro
 	 * */
-	@RequestMapping(value = "/cardapio_personalizado", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/obter_produto", method = RequestMethod.POST, consumes = "application/json")
 	public String obterProdutoPersonalizado(@RequestBody Ingrediente[] ingredienteArray) {
 		List<Ingrediente> list = Arrays.asList(ingredienteArray);
-		Produto produto = ls.obterProdutoCustomizado(list);
+		Produto produto = ls.obterProduto(list);
 		
 		return Json.paraJson(produto);
+	}
+	
+	/*
+	 * Obter ingredientes para poder customizar no front
+	 * */
+	@RequestMapping(value = "/ingredientes", method = RequestMethod.GET)
+	public String obterIngredientes() {
+		ArrayList listIngredientes = new ArrayList<Ingrediente>(ingredientes.values());
+		
+		return Json.paraJson(listIngredientes);
 	}
 	
 	
