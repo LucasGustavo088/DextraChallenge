@@ -50,10 +50,10 @@ export default class Login extends React.Component {
         login(res.data.data.token);
         this.props.history.push('/admin/dashboard')
       } else {
-        Utils.alertAirtech("Login ou usuário inválidos", 'success');
+        Utils.alertDextra("Login ou usuário inválidos", 'success');
       }
     }).catch(function (error) {
-      Utils.alertAirtech('Houve um erro ao logar', 'error');
+      Utils.alertDextra('Houve um erro ao logar', 'error');
     });
   }
 

@@ -2,7 +2,7 @@ import swal from 'sweetalert';
 
 class Utils {
     
-    static alertAirtech = (text, type, title) => {
+    static alertDextra = (text, type, title) => {
         swal({
             title: title,
             text: text,

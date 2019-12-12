@@ -35,7 +35,7 @@ export default class CreateDevice extends React.Component {
       
       /* Validação */
       if(publico != "sim" && publico != "nao") {
-        Utils.alertAirtech("Informe o campo público sim ou nao", "error");
+        Utils.alertDextra("Informe o campo público sim ou nao", "error");
         return false;
       } else {
         if(publico == "sim") {
@@ -56,7 +56,7 @@ export default class CreateDevice extends React.Component {
       let token = getToken();
 
       if(token == "") {
-        Utils.alertAirtech("Houve um erro ao obter o token");
+        Utils.alertDextra("Houve um erro ao obter o token");
       } else {
         axios({
           method: 'post',
@@ -67,9 +67,9 @@ export default class CreateDevice extends React.Component {
           data: device
         }).then(res => {
           if(res.data.success) {
-            Utils.alertAirtech("Equipamento adicionado com sucesso.", "success");
+            Utils.alertDextra("Equipamento adicionado com sucesso.", "success");
           } else {
-            Utils.alertAirtech("Não foi possível adicionar", "error");
+            Utils.alertDextra("Não foi possível adicionar", "error");
           }
         });
       }

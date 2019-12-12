@@ -41,7 +41,7 @@ export default class Register extends React.Component {
     let url = api.baseUrl + '/usuario';
     
     if(password != password_confirmation) {
-      Utils.alertAirtech("Senhas não confirmam", 'error');
+      Utils.alertDextra("Senhas não confirmam", 'error');
     } else {
       let user = {
         nome: nome_completo,
@@ -51,7 +51,7 @@ export default class Register extends React.Component {
 
       axios.post(url, user)
       .then(res => {
-        Utils.alertAirtech("Usuário cadastrado com sucesso. Por favor, faça seu login.", "success");
+        Utils.alertDextra("Usuário cadastrado com sucesso. Por favor, faça seu login.", "success");
         this.props.history.push('/login')
       })
     }

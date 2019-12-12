@@ -34,7 +34,7 @@ export default class VisualizarPerfilAmostra extends React.Component {
     var pathArray = window.location.pathname.split('/');
 
     if (pathArray.length < 5) {
-      Utils.alertAirtech("Houve um erro ao obter os parametros", "error");
+      Utils.alertDextra("Houve um erro ao obter os parametros", "error");
       return false;
     }
 
@@ -74,7 +74,7 @@ export default class VisualizarPerfilAmostra extends React.Component {
           tableDataEquipamento: tableDataEquipamento
         });
       } else {
-        Utils.alertAirtech("Houve um erro ao obter o cadastro", "error");
+        Utils.alertDextra("Houve um erro ao obter o cadastro", "error");
       }
     });
   }

@@ -197,8 +197,21 @@ class Dashboard extends React.Component {
   }
 
   adicionarNovoProdutoCarrinho = () => {
+    let todosIngredientesZerados = true;
+    this.state.novoProduto.ingredientes.forEach((item => {
+      if(item.quantidade > 0) {
+        todosIngredientesZerados = false;
+      }
+    }));
+    if(todosIngredientesZerados) {
+      Utils.alertDextra("Para adicionar é necessário ter pelo menos um ingrediente", "warning");
+      return false;
+    }
+
     let carrinho = this.state.carrinho;
     carrinho.push(this.state.novoProduto);
+
+
     this.setState({carrinho: carrinho, novoProduto: null, modalCriarProduto: false});
 
   }
@@ -221,6 +234,7 @@ class Dashboard extends React.Component {
           novoProduto.descricao = descricao;
           this.atualizarTableIngrediente(novoProduto);
           this.setState({novoProduto: novoProduto});
+          this.getProdutoAjax();
         }
       });
     }
@@ -267,7 +281,7 @@ class Dashboard extends React.Component {
     
     let tableDataCarrinho = [];
     this.state.carrinho.forEach((item) => {
-      tableDataCarrinho.push([item.id, item.descricao, item.ingredientes.map((item, index) => (index > 0 ? ', ' + item.descricao : item.descricao)), Utils.formatarReal(item.precoTotal, true), <img style={{ borderRadius: "2px" }} height="100" weigth="auto" src={item.foto} />, <Button onClick={() => this.removerProdutoCarrinho(item.id)}><Remove style={{ color: "#00bae0" }} /></Button>]);
+      tableDataCarrinho.push([item.id, item.descricao, item.ingredientes.map((item, index) => (item.quantidade > 0 ? (index > 0 ? ', ' + item.descricao : item.descricao) : "")), Utils.formatarReal(item.precoTotal, true), <img style={{ borderRadius: "2px" }} height="100" weigth="auto" src={item.foto} />, <Button onClick={() => this.removerProdutoCarrinho(item.id)}><Remove style={{ color: "#00bae0" }} /></Button>]);
     });
     let valorTotalCarrinhoCalculado = 0;
 

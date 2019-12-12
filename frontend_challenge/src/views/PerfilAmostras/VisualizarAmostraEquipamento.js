@@ -39,7 +39,7 @@ class VisualizarAmostraEquipamento extends React.Component {
         var pathArray = window.location.pathname.split('/');
 
         if (pathArray.length < 5) {
-            Utils.alertAirtech("Houve um erro ao obter os parametros", "error");
+            Utils.alertDextra("Houve um erro ao obter os parametros", "error");
             return false;
         }
 
@@ -65,7 +65,7 @@ class VisualizarAmostraEquipamento extends React.Component {
                 });
 
                 if (equipamento == null) {
-                    Utils.alertAirtech("O equipamento não foi encontrado.", "error");
+                    Utils.alertDextra("O equipamento não foi encontrado.", "error");
                     return false;
                 }
 
@@ -85,7 +85,7 @@ class VisualizarAmostraEquipamento extends React.Component {
                     console.log(sensor);
                 });
             } else {
-                Utils.alertAirtech("Houve um erro ao obter o cadastro", "error");
+                Utils.alertDextra("Houve um erro ao obter o cadastro", "error");
             }
         });
     }

@@ -88,57 +88,57 @@ export default class CreatePerfilAmostras extends React.Component {
 
     /* Validação */
     if(tempoExposicao == '') {
-      Utils.alertAirtech("O campo tempo de exposição é necessário.", "error");
+      Utils.alertDextra("O campo tempo de exposição é necessário.", "error");
       return false;
     } 
 
     if(dataInicioColeta == '') {
-      Utils.alertAirtech("O campo data de inicio da coleta é necessário.", "error");
+      Utils.alertDextra("O campo data de inicio da coleta é necessário.", "error");
       return false;
     } else {
       let retornoValidacao = Utils.validarData(dataInicioColeta);
       if(retornoValidacao == false) {
-        Utils.alertAirtech("O campo data de inicio da coleta não está válido. O formato deverá ser dd/mm/YYYY", "error");
+        Utils.alertDextra("O campo data de inicio da coleta não está válido. O formato deverá ser dd/mm/YYYY", "error");
         return false;
       }
     }
 
     if(dataTerminoColeta == '') {
-      Utils.alertAirtech("O campo data de término da coleta é necessário.", "error");
+      Utils.alertDextra("O campo data de término da coleta é necessário.", "error");
       return false;
     } else {
       let retornoValidacao = Utils.validarData(dataTerminoColeta);
       if(retornoValidacao == false) {
-        Utils.alertAirtech("O campo data de término de coleta não está válido. O formato deverá ser dd/mm/YYYY", "error");
+        Utils.alertDextra("O campo data de término de coleta não está válido. O formato deverá ser dd/mm/YYYY", "error");
         return false;
       }
     }
     if(equipamentos == "") {
-      Utils.alertAirtech("Selecione pelo menos um equipamento.", "error");
+      Utils.alertDextra("Selecione pelo menos um equipamento.", "error");
       return false;
     }
 
     if(sensores == "") {
-      Utils.alertAirtech("Selecione pelo menos um sensor.", "error");
+      Utils.alertDextra("Selecione pelo menos um sensor.", "error");
       return false;
     }
 
     let dataInicioColetaSplit = dataInicioColeta.split('/');
     let dataInicioColetaJS = new Date(dataInicioColetaSplit[2] + '/' + dataInicioColetaSplit[1] + '/' + dataInicioColetaSplit[0]);
     if(dataInicioColetaJS < new Date()) {
-      Utils.alertAirtech('Insira uma data maior que hoje no campo "Data de inicio"', "error");
+      Utils.alertDextra('Insira uma data maior que hoje no campo "Data de inicio"', "error");
       return false;
     }
 
     let dataTerminoColetaSplit = dataTerminoColeta.split('/');
     let dataTerminoColetaJS = new Date(dataTerminoColetaSplit[2] + '/' + dataTerminoColetaSplit[1] + '/' + dataTerminoColetaSplit[0]);
     if(dataTerminoColetaJS < new Date()) {
-      Utils.alertAirtech('Insira uma data maior que hoje no campo "Data de término"', "error");
+      Utils.alertDextra('Insira uma data maior que hoje no campo "Data de término"', "error");
       return false;
     }
 
     if(dataTerminoColetaJS < dataInicioColetaJS) {
-      Utils.alertAirtech('A data de termino não pode ser maior que a data de inicio', "error");
+      Utils.alertDextra('A data de termino não pode ser maior que a data de inicio', "error");
       return false;
     }
 
@@ -172,7 +172,7 @@ export default class CreatePerfilAmostras extends React.Component {
     /* Val(puidação */
 
     if (token == "") {
-      Utils.alertAirtech("Houve um erro ao obter o token");
+      Utils.alertDextra("Houve um erro ao obter o token");
     } else {
       axios({
         method: 'post',
@@ -183,9 +183,9 @@ export default class CreatePerfilAmostras extends React.Component {
         data: perfilAmostra
       }).then(res => {
         if (res.data.success) {
-          Utils.alertAirtech("Perfil de amostra adicionada com sucesso.", "success");
+          Utils.alertDextra("Perfil de amostra adicionada com sucesso.", "success");
         } else {
-          Utils.alertAirtech("Não foi possível adicionar", "error");
+          Utils.alertDextra("Não foi possível adicionar", "error");
         }
       });
     }
