@@ -33,6 +33,7 @@ public class ProdutoService {
 	
 	private int countId = 0;
 
+	String foto = "https://abrilvejario.files.wordpress.com/2017/12/1-foto-2-notas-le-max_duro-de-matar.jpg?quality=70&strip=info";
 	
 	public ProdutoService() {
 		criarEntidades();
@@ -55,8 +56,6 @@ public class ProdutoService {
 		ingredientes.put((long) 3, hamburguerCarne);
 		ingredientes.put((long) 4, ovo);
 		ingredientes.put((long) 5, queijo);
-		
-		String foto = "https://abrilvejario.files.wordpress.com/2017/12/1-foto-2-notas-le-max_duro-de-matar.jpg?quality=70&strip=info";
 		
 		/* ============== Instanciando os lanches ============== */
 		
@@ -106,10 +105,9 @@ public class ProdutoService {
 	 * Cria-se um produto a partir dos ingredientes inseridos
 	 * */
 	public Produto obterProduto(List<Ingrediente> ingredientes) {
-		String foto = "https://cultura.estadao.com.br/blogs/divirta-se/wp-content/uploads/sites/265/2019/05/Menca-Orlando-Burger-Andr%C3%A9-Olivetto.jpg";
 		Produto produtoPersonalizado = new Produto();
 		produtoPersonalizado.setId(++countId);
-		produtoPersonalizado.setDescricao("Novo produto");
+		produtoPersonalizado.setDescricao("Novo produto carrinho " + countId);
 		produtoPersonalizado.setIngredientes(ingredientes);
 		produtoPersonalizado.setPrecoTotal(calcularPrecoTotalProduto(ingredientes));
 		produtoPersonalizado.setImagem(foto);

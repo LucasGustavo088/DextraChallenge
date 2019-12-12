@@ -112,18 +112,18 @@ class Dashboard extends React.Component {
   }
 
   adicionarProdutoFinalizacaoCarrinho = (idProduto) => {
-    var novoProduto = this.state.novoProduto;
-
+    let novoProdutoState = this.state.novoProduto;
+    console.log(novoProdutoState);
     this.state.produtos.forEach((item) => {
       if (item.id == idProduto) {
-        novoProduto = item;
+        novoProdutoState = item;
 
         var novoIngredientesExistentes = [];
-        novoProduto.ingredientesExistentes = this.state.ingredientes;
-        novoProduto.ingredientesExistentes.forEach((itemIngredienteExistente) => {
+        novoProdutoState.ingredientesExistentes = this.state.ingredientes;
+        novoProdutoState.ingredientesExistentes.forEach((itemIngredienteExistente) => {
 
           itemIngredienteExistente.quantidade = 0;
-          novoProduto.ingredientes.forEach((itemIngrediente) => {
+          novoProdutoState.ingredientes.forEach((itemIngrediente) => {
             if (itemIngredienteExistente.id == itemIngrediente.id) {
               itemIngredienteExistente.quantidade = itemIngrediente.quantidade;
             }
@@ -131,15 +131,16 @@ class Dashboard extends React.Component {
           novoIngredientesExistentes.push(itemIngredienteExistente);
         });
 
-        novoProduto.ingredientes = novoIngredientesExistentes;
+        novoProdutoState.ingredientes = novoIngredientesExistentes;
 
-        this.setState({ novoProduto: novoProduto });
-        this.atualizarTableIngrediente(novoProduto);
+        this.atualizarTableIngrediente(novoProdutoState);
+        this.setState({novoProduto: novoProdutoState});
+        this.atualizarNovoProdutoCarrinhoAJax(novoProdutoState);
+
       }
     });
 
-    this.recalcularValorCarrinho();
-    this.atualizarNovoProdutoCarrinhoAJax();
+    this.atualizarNovoProdutoCarrinhoAJax(novoProdutoState);
   }
 
 
@@ -155,7 +156,7 @@ class Dashboard extends React.Component {
 
 
     this.setState({ novoProduto: novoProduto });
-    this.atualizarNovoProdutoCarrinhoAJax();
+    this.atualizarNovoProdutoCarrinhoAJax(novoProduto);
   }
 
   refazerProduto = () => {
@@ -177,7 +178,7 @@ class Dashboard extends React.Component {
 
 
     this.setState({ novoProduto: novoProduto });
-    this.atualizarNovoProdutoCarrinhoAJax();
+    this.atualizarNovoProdutoCarrinhoAJax(novoProduto);
   }
 
   atualizarTableIngrediente = (novoProduto) => {
@@ -200,12 +201,10 @@ class Dashboard extends React.Component {
     carrinho.push(this.state.novoProduto);
     this.setState({carrinho: carrinho, novoProduto: null, modalCriarProduto: false});
 
-    this.recalcularValorCarrinho();
   }
 
-  atualizarNovoProdutoCarrinhoAJax = () => {
-    let novoProduto = this.state.novoProduto;
-    
+  atualizarNovoProdutoCarrinhoAJax = (novoProduto) => {
+    let descricao = novoProduto.descricao;
     if(novoProduto != null) {
       let url = api.baseUrl + "produto/obter_produto";
       axios({
@@ -219,6 +218,7 @@ class Dashboard extends React.Component {
       }).then(res => {
         if (typeof res.data != 'undefined') {
           novoProduto = res.data;
+          novoProduto.descricao = descricao;
           this.atualizarTableIngrediente(novoProduto);
           this.setState({novoProduto: novoProduto});
         }
@@ -226,27 +226,16 @@ class Dashboard extends React.Component {
     }
   }
 
-  recalcularValorCarrinho = () => {
-    var valorTotalCarrinho = 0;
-    this.state.carrinho.forEach((item) => {
-      valorTotalCarrinho += item.precoTotal;
-    });
-
-    this.setState({ valorTotalCarrinho: valorTotalCarrinho });
-  }
-
   removerProdutoCarrinho = (idProduto) => {
-    let carrinho = this.state.carrinho;
+    let carrinhoState = this.state.carrinho;
     
     let novoCarrinho = [];
-    carrinho.forEach((item) => {
+    carrinhoState.forEach((item) => {
       if(item.id != idProduto) {
         novoCarrinho.push(item);
       }
     });
-
     this.setState({carrinho: novoCarrinho});
-    this.recalcularValorCarrinho();
   }
 
   handleCloseModalCriarProduto = () => {
@@ -280,7 +269,10 @@ class Dashboard extends React.Component {
     this.state.carrinho.forEach((item) => {
       tableDataCarrinho.push([item.id, item.descricao, item.ingredientes.map((item, index) => (index > 0 ? ', ' + item.descricao : item.descricao)), Utils.formatarReal(item.precoTotal, true), <img style={{ borderRadius: "2px" }} height="100" weigth="auto" src={item.foto} />, <Button onClick={() => this.removerProdutoCarrinho(item.id)}><Remove style={{ color: "#00bae0" }} /></Button>]);
     });
+    let valorTotalCarrinhoCalculado = 0;
 
+    this.state.carrinho.forEach(item => valorTotalCarrinhoCalculado += item.precoTotal);
+    
     return (
       <div>
         <Modal
@@ -357,8 +349,8 @@ class Dashboard extends React.Component {
           </GridItem>
           <GridItem xs={12} sm={12} md={6} style={{ position: 'fixed', bottom: "50px", left: "0px", width: "250px", zIndex: "4" }}>
             <CardHeader color="primary">
-              <strong><h3 style={styles.cardTitleWhite}>Valor total: {Utils.formatarReal(this.state.valorTotalCarrinho, true)}</h3></strong>
-              <Button style={{ color: "white" }}><ShoppingCart /> {this.state.carrinho.length} produtos no carrinho</Button>
+              <strong><h3 style={styles.cardTitleWhite}>Valor total: {Utils.formatarReal(valorTotalCarrinhoCalculado, true)}</h3></strong>
+              <Button style={{ color: "white" }}><ShoppingCart /> {this.state.carrinho.length} produto(s) no carrinho</Button>
             </CardHeader>
           </GridItem>
         </GridContainer>
