@@ -13,13 +13,41 @@ Desafio dextra: repositório com o ambiente Backend e Frontend
 ## Relatório de justificativas para escolha do design de código
 
 #### Design Pattern Arquitetural - Service Layer
-- Foi criado a camada Service permitindo separar da camada controller, desse modo não é necessário saber como ele implementa regras e acesso a dados
+Foi criado a camada Service permitindo separar da camada controller, desse modo não é necessário saber como ele implementa regras e acesso a dados
 
 #### Dependency Injection
 Foi utilizado o padrão de desenvolvimento de injeção de dependência nas camadas services para manter o baixo nível de acomplamento no módulo de produto do sistema.
 
 #### Singleton
 Foi criado um count de ids no momento da inicialização do sistema. Desse modo é possível criar objetos únicos para os quais há apenas uma instância. 
+
+## Como executar?
+
+- Realize o clone do projeto com o comando: **git clone https://github.com/LucasGustavo088/DextraChallenge**
+- Use o terminal para navegar dentro dela com o comando: **cd DextraChallenge**
+
+#### Frontend
+- Navegue com o terminal para a pasta frontend_challenge com o comando: **cd frontend_challenge**
+- Tenha o node.js instalado na sua máquina e então rode o comando **npm install**
+- Para startar a aplicação react rode o comando: **npm start**
+
+#### Backend
+- Com o eclipse aberto, selecione a opção arquivo(file) -> importar(import) -> Maven/Existing Maven Projects -> selecione a pasta onde está o backend (backend_challenge) -> finalizar
+- Clique com o botão direito no projeto -> maven -> update project -> ok
+- Vá na pasta src/main/java -> com.dextrachallenge.dextrachallenge -> DextrachallengeApplication -> botão direito -> run as java application
+
+Pronto! 
+
+*Obs:*
+- Ao acessar a aplicação web. Clique para adicionar o produto, em seguida, selecione um dos lanches e clique em "+". Selecione a quantidade de ingredientes em cada item e clique em adicionar produto no carrinho.
+- No canto esquerdo tem o preço total do seu carrinho
+- É possível remover os itens do carrinho na listagem principal 
+
+#### Métodos do Backend
+- GET - http://localhost:8080/produto/cardapio
+- GET - http://localhost:8080/produto/cardapio/{id}
+- POST - http://localhost:8080/produto/obter_produto (basta passar os ingredientes necessários)
+- GET - http://localhost:8080/produto/ingredientes 
 
 ## Descrição
 
