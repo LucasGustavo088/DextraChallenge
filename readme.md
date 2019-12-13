@@ -100,10 +100,9 @@ Inflação        | Os valores dos ingredientes são alterados com frequência e
 - Não é necessário persistir os dados em um banco, pode fazer armazenamento em memória.
 
 ## Entregáveis 
-- checked # [checkbox:checked] Implementação dos requisitos;
-- checked # [checkbox:checked] Relatório simples de justificativas para escolha do design de código;
-- checked # [checkbox:checked] Instruções para executar;
-
+- [X] Implementação dos requisitos;
+- [X] Relatório simples de justificativas para escolha do design de código;
+- [X] Instruções para executar;
 
 
 
