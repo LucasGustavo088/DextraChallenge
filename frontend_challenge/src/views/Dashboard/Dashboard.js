@@ -266,9 +266,13 @@ class Dashboard extends React.Component {
   }
 
   finalizarCompra = () => {
-    alert("Compra efetuada com sucesso!");
-    Utils.alertDextra("Compra efetuada com sucesso!", "success");
-    this.setState({carrinho: []});
+    
+    if(this.state.carrinho.length > 0) {
+      Utils.alertDextra("Compra efetuada com sucesso! Feature Sairá na próxima release :) ", "success");
+      this.setState({carrinho: []});
+    } else {
+      Utils.alertDextra("Para finalizar a compra é necessário ter pelo menos um item no carrinho.", "warning");
+    }
   }
 
   render() {
@@ -372,7 +376,7 @@ class Dashboard extends React.Component {
             <CardHeader color="primary">
               <strong><h3 style={styles.cardTitleWhite}>Valor total: {Utils.formatarReal(valorTotalCarrinhoCalculado, true)}</h3></strong>
               <Button style={{ color: "white" }}><ShoppingCart /> {this.state.carrinho.length} produto(s) no carrinho</Button>
-              {/* <Button style={{ color: "white" }}><Shop onClick={this.finalizarCompra}/> Finalizar compra</Button> */}
+              <Button onClick={this.finalizarCompra} style={{ color: "white" }}><Shop/> Finalizar compra</Button>
             </CardHeader>
           </GridItem>
         </GridContainer>

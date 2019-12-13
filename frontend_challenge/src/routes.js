@@ -37,13 +37,6 @@ import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
-import Device from "views/Device/Device";
-import CreateDevice from "views/Device/CreateDevice";
-import PerfilAmostras from "views/PerfilAmostras/PerfilAmostras";
-import CreatePerfilAmostras from "views/PerfilAmostras/CreatePerfilAmostras";
-import Localizacao from "views/Localizacao/Localizacao";
-import VisualizarPerfilAmostra from "views/PerfilAmostras/VisualizarPerfilAmostra";
-import VisualizarAmostraEquipamento from "views/PerfilAmostras/VisualizarAmostraEquipamento";
 import Carrinho from "views/Carrinho/Carrinho";
 
 const dashboardRoutes = [
