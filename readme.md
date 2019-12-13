@@ -99,6 +99,10 @@ Inflação        | Os valores dos ingredientes são alterados com frequência e
 - Não é necessário se preocupar com a autenticação dos usuários.
 - Não é necessário persistir os dados em um banco, pode fazer armazenamento em memória.
 
+## Entregáveis 
+- Implementação dos requisitos;
+- Relatório simples de justificativas para escolha do design de código;
+- Instruções para executar;
 
 
 
