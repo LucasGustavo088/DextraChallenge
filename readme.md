@@ -3,12 +3,23 @@
 Desafio dextra: repositório com o ambiente Backend e Frontend
 
 ## Tecnologias utilizadas
-- Java
+- Java 8
 - Spring Boot
 - Maven
 - React.JS
 - Material-UI
+- JUnit
 
+## Relatório de justificativas para escolha do design de código
+
+#### Design Pattern Arquitetural - Service Layer
+- Foi criado a camada Service permitindo separar da camada controller, desse modo não é necessário saber como ele implementa regras e acesso a dados
+
+#### Dependency Injection
+Foi utilizado o padrão de desenvolvimento de injeção de dependência nas camadas services para manter o baixo nível de acomplamento no módulo de produto do sistema.
+
+#### Singleton
+Foi criado um count de ids no momento da inicialização do sistema. Desse modo é possível criar objetos únicos para os quais há apenas uma instância. 
 
 ## Descrição
 
@@ -56,7 +67,7 @@ Inflação        | Os valores dos ingredientes são alterados com frequência e
 - Não é necessário se preocupar com a autenticação dos usuários.
 - Não é necessário persistir os dados em um banco, pode fazer armazenamento em memória.
 
-## Relatório de justificativas para escolha do design de código
+
 
 
 

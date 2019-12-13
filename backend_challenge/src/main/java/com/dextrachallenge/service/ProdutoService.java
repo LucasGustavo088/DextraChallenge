@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.dextrachallenge.model.Ingrediente;
 import com.dextrachallenge.model.Produto;
+import com.dextrachallenge.utils.SingletonCountProdutos;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,8 +31,6 @@ public class ProdutoService {
 	public static Ingrediente queijo;
 	
 	public double descontoLight = 0.10;
-	
-	private int countId = 0;
 
 	String foto = "https://abrilvejario.files.wordpress.com/2017/12/1-foto-2-notas-le-max_duro-de-matar.jpg?quality=70&strip=info";
 	
@@ -105,9 +104,11 @@ public class ProdutoService {
 	 * Cria-se um produto a partir dos ingredientes inseridos
 	 * */
 	public Produto obterProduto(List<Ingrediente> ingredientesSelecionados) {
+		SingletonCountProdutos scp = SingletonCountProdutos.getInstance();
+		
 		Produto produtoPersonalizado = new Produto();
-		produtoPersonalizado.setId(++countId);
-		produtoPersonalizado.setDescricao("Novo produto carrinho " + countId);
+		produtoPersonalizado.setId(++scp.count);
+		produtoPersonalizado.setDescricao("Novo produto carrinho " + scp.count);
 		produtoPersonalizado.ingredientes = ingredientesSelecionados;
 		produtoPersonalizado.setPrecoTotal(calcularPrecoTotalProduto(ingredientesSelecionados));
 		produtoPersonalizado.setImagem(foto);
