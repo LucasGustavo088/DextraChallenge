@@ -36,12 +36,16 @@ Foi criado um count de ids no momento da inicialização do sistema. Desse modo 
 - Clique com o botão direito no projeto -> maven -> update project -> ok
 - Vá na pasta src/main/java -> com.dextrachallenge.dextrachallenge -> DextrachallengeApplication -> botão direito -> run as java application
 
+#### Test JUnit
+- Para testar o backend vá no eclipse -> dextrachallenge -> src/test/java -> com.dextrachallenge.dextrachallenge -> Clique com o botão direito no arquivo TesteProduto.java -> run as JUnit Test
+- Na aba JUnit é possível ver se todos os itens de teste na classe foram realizados com sucesso.
+
 Pronto! 
 
 *Obs:*
 - Ao acessar a aplicação web. Clique para adicionar o produto, em seguida, selecione um dos lanches e clique em "+". Selecione a quantidade de ingredientes em cada item e clique em adicionar produto no carrinho.
 - No canto esquerdo tem o preço total do seu carrinho
-- É possível remover os itens do carrinho na listagem principal 
+- É possível remover os itens do carrinho na listagem principal
 
 #### Métodos do Backend
 - GET - http://localhost:8080/produto/cardapio
