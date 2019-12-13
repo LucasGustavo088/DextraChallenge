@@ -40,7 +40,9 @@ Foi criado um count de ids no momento da inicialização do sistema. Desse modo 
 - Para testar o backend vá no eclipse -> dextrachallenge -> src/test/java -> com.dextrachallenge.dextrachallenge -> Clique com o botão direito no arquivo TesteProduto.java -> run as JUnit Test
 - Na aba JUnit é possível ver se todos os itens de teste na classe foram realizados com sucesso.
 
-Pronto! 
+Pronto!
+
+![Image description](https://lh3.googleusercontent.com/-xXhi2vjgVuo/XfMYMvQ0WvI/AAAAAAAAm7Y/gWAbV0UXtgMULuniBPSx03YFxiB0NgNrgCK8BGAsYHg/s0/2019-12-12.png)
 
 *Obs:*
 - Ao acessar a aplicação web. Clique para adicionar o produto, em seguida, selecione um dos lanches e clique em "+". Selecione a quantidade de ingredientes em cada item e clique em adicionar produto no carrinho.
