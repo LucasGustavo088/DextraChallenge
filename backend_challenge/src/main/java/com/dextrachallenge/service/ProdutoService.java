@@ -146,13 +146,16 @@ public class ProdutoService {
 			
 			// A cada 3 porções de carne o cliente só paga 2. Se o lanche tiver 6 porções, o cliente pagará 4. Assim por diante...
 			// A cada 3 porções de queijo o cliente só paga 2. Se o lanche tiver 6 porções, o cliente pagará 4. Assim por diante...
-			if(ingrediente.getQuantidade() >= 3) {
-				if(ingrediente.getId() == queijo.getId() || ingrediente.getId() == hamburguerCarne.getId()) {
+			if(ingrediente.getId() == queijo.getId() || ingrediente.getId() == hamburguerCarne.getId()) {
+				if(ingrediente.getQuantidade() >= 3) {
+			
 					possuiPromocao = true;
 					
 					int novaQuantidade = this.obterRegraNovaQuantidade(ingrediente.getQuantidade());
 					
 					ingrediente.setQuantidadeCalculo(novaQuantidade);
+				} else {
+					ingrediente.setQuantidadeCalculo(ingrediente.getQuantidade());
 				}
 			} else {
 				ingrediente.setQuantidadeCalculo(ingrediente.getQuantidade());

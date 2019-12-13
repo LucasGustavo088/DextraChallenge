@@ -1,5 +1,15 @@
 # Dextra Challenge
 
+Desafio dextra: repositório com o ambiente Backend e Frontend
+
+## Tecnologias utilizadas
+- Java
+- Spring Boot
+- Maven
+- React.JS
+- Material-UI
+
+
 ## Descrição
 
 Somos uma startup do ramo de alimentos e precisamos de uma aplicação web para gerir nosso negócio. Nossa especialidade é a venda de lanches, de modo que alguns lanches são opções de cardápio e outros podem conter ingredientes personalizados.
@@ -45,4 +55,8 @@ Inflação        | Os valores dos ingredientes são alterados com frequência e
 - Deve possuir cobertura de testes automatizados para os seguintes pontos: Valor dos lanches de cardápio, regra para cálculo de preço e promoções.
 - Não é necessário se preocupar com a autenticação dos usuários.
 - Não é necessário persistir os dados em um banco, pode fazer armazenamento em memória.
+
+## Relatório de justificativas para escolha do design de código
+
+
 
