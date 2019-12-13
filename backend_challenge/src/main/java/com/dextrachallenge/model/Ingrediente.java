@@ -11,14 +11,28 @@ public class Ingrediente implements java.io.Serializable, Cloneable{
 	private String descricao;
 	private double preco;
 	private int quantidade;
+	private int quantidadeCalculo;
 	
-	public Ingrediente(int id, String descricao, double preco, int quantidade) {
+	public Ingrediente(int id, String descricao, double preco, int quantidade, int quantidadeCalculo) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
 		this.preco = preco;
 		this.quantidade = quantidade;
+		this.quantidadeCalculo = quantidadeCalculo;
 	}
+
+	public int getQuantidadeCalculo() {
+		return quantidadeCalculo;
+	}
+
+
+
+	public void setQuantidadeCalculo(int quantidadeCalculo) {
+		this.quantidadeCalculo = quantidadeCalculo;
+	}
+
+
 
 	public Ingrediente() {
 		super();

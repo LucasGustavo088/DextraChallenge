@@ -23,13 +23,13 @@ public class ProdutoService {
 	@Getter
 	public HashMap<Long, Ingrediente> ingredientes = new HashMap<Long,Ingrediente>();
 	
-	private static Ingrediente alface;
-	private static Ingrediente bacon;
-	private static Ingrediente hamburguerCarne;
-	private static Ingrediente ovo;
-	private static Ingrediente queijo;
+	public static Ingrediente alface;
+	public static Ingrediente bacon;
+	public static Ingrediente hamburguerCarne;
+	public static Ingrediente ovo;
+	public static Ingrediente queijo;
 	
-	private double descontoLight = 0.10;
+	public double descontoLight = 0.10;
 	
 	private int countId = 0;
 
@@ -45,11 +45,11 @@ public class ProdutoService {
 	public void criarEntidades() {
 		
 		/* ============== Instanciando os ingredientes ============== */
-		alface = new Ingrediente(1, "Alface", 0.40, 1);
-		bacon = new Ingrediente(2, "Bacon", 2.00, 1);
-		hamburguerCarne = new Ingrediente(3, "Hamburguer de Carne", 3.00, 1);
-		ovo = new Ingrediente(4, "Ovo", 0.80, 1);
-		queijo = new Ingrediente(5, "Queijo", 1.50, 1 );
+		alface = new Ingrediente(1, "Alface", 0.40, 1, 1);
+		bacon = new Ingrediente(2, "Bacon", 2.00, 1, 1);
+		hamburguerCarne = new Ingrediente(3, "Hamburguer de Carne", 3.00, 1, 1);
+		ovo = new Ingrediente(4, "Ovo", 0.80, 1, 1);
+		queijo = new Ingrediente(5, "Queijo", 1.50, 1, 1);
 		
 		ingredientes.put((long) 1, alface);
 		ingredientes.put((long) 2, bacon);
@@ -149,14 +149,17 @@ public class ProdutoService {
 			if(ingrediente.getQuantidade() >= 3) {
 				if(ingrediente.getId() == queijo.getId() || ingrediente.getId() == hamburguerCarne.getId()) {
 					possuiPromocao = true;
-					int novaQuantidade = ingrediente.getQuantidade() / 3;
-					novaQuantidade += novaQuantidade;
-					ingrediente.setQuantidade(novaQuantidade);
+					
+					int novaQuantidade = this.obterRegraNovaQuantidade(ingrediente.getQuantidade());
+					
+					ingrediente.setQuantidadeCalculo(novaQuantidade);
 				}
+			} else {
+				ingrediente.setQuantidadeCalculo(ingrediente.getQuantidade());
 			}
 			
 			//Calculo do preço total
-			preco = ingredienteSistema.getPreco() * ingrediente.getQuantidade();
+			preco = ingredienteSistema.getPreco() * ingrediente.getQuantidadeCalculo();
 			precoTotal += preco;
 		}
 		
@@ -165,5 +168,17 @@ public class ProdutoService {
 			precoTotal = precoTotal - (precoTotal * this.descontoLight);
 		}
 		return precoTotal;
+	}
+	
+	public int obterRegraNovaQuantidade(int quantidadeAtual) {
+		int novaQuantidade = 0;
+		for(int i = 1; i <= quantidadeAtual; i++) {
+			novaQuantidade++;
+			if(i % 3 == 0) {
+				novaQuantidade--;
+			}
+		}
+		
+		return novaQuantidade;
 	}
 }

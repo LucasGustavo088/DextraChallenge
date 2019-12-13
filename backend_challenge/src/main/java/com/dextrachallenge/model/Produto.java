@@ -62,7 +62,7 @@ public class Produto {
 		this.ingredientes = ingredientes;
 	}
 
-	public double getPrecoTotal() {
+	public double precoTotal() {
 		return precoTotal;
 	}
 

@@ -51,6 +51,7 @@ import { Link, Button } from "@material-ui/core";
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
+import Shop from '@material-ui/icons/Shop';
 import Fade from '@material-ui/core/Fade';
 
 class Dashboard extends React.Component {
@@ -264,6 +265,12 @@ class Dashboard extends React.Component {
     });
   }
 
+  finalizarCompra = () => {
+    alert("Compra efetuada com sucesso!");
+    Utils.alertDextra("Compra efetuada com sucesso!", "success");
+    this.setState({carrinho: []});
+  }
+
   render() {
     const styles = {
       modal: {
@@ -365,6 +372,7 @@ class Dashboard extends React.Component {
             <CardHeader color="primary">
               <strong><h3 style={styles.cardTitleWhite}>Valor total: {Utils.formatarReal(valorTotalCarrinhoCalculado, true)}</h3></strong>
               <Button style={{ color: "white" }}><ShoppingCart /> {this.state.carrinho.length} produto(s) no carrinho</Button>
+              {/* <Button style={{ color: "white" }}><Shop onClick={this.finalizarCompra}/> Finalizar compra</Button> */}
             </CardHeader>
           </GridItem>
         </GridContainer>
