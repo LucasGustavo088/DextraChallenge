@@ -104,12 +104,12 @@ public class ProdutoService {
 	/*
 	 * Cria-se um produto a partir dos ingredientes inseridos
 	 * */
-	public Produto obterProduto(List<Ingrediente> ingredientes) {
+	public Produto obterProduto(List<Ingrediente> ingredientesSelecionados) {
 		Produto produtoPersonalizado = new Produto();
 		produtoPersonalizado.setId(++countId);
 		produtoPersonalizado.setDescricao("Novo produto carrinho " + countId);
-		produtoPersonalizado.setIngredientes(ingredientes);
-		produtoPersonalizado.setPrecoTotal(calcularPrecoTotalProduto(ingredientes));
+		produtoPersonalizado.ingredientes = ingredientesSelecionados;
+		produtoPersonalizado.setPrecoTotal(calcularPrecoTotalProduto(ingredientesSelecionados));
 		produtoPersonalizado.setImagem(foto);
 		
 		return produtoPersonalizado;
@@ -118,14 +118,14 @@ public class ProdutoService {
 	/*
 	 * Calcular preço total do produto com base nos ingredientes inseridos. Também é calculado a promoção através das regras de negócio.
 	 */
-	public double calcularPrecoTotalProduto(List<Ingrediente> ingredientes) {
+	public double calcularPrecoTotalProduto(List<Ingrediente> ingredientesCalculo) {
 		boolean possuiAlface = false;
 		boolean possuiBacon = false;
 		boolean possuiPromocao = false;
 		double preco = 0.00;
 		double precoTotal = 0.00;
 
-		for (Ingrediente ingrediente : ingredientes) {
+		for (Ingrediente ingrediente : ingredientesCalculo) {
 			
 			Ingrediente ingredienteSistema = null;
 			for(Ingrediente ingredienteSistemaEach : this.ingredientes.values()) {

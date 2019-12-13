@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Produto {
 	private int id; 
 	private String descricao;
-	private List<Ingrediente> ingredientes;
+	public List<Ingrediente> ingredientes;
 	private double precoTotal;
 	private String foto;
 	

@@ -213,7 +213,7 @@ class Dashboard extends React.Component {
 
 
     this.setState({carrinho: carrinho, novoProduto: null, modalCriarProduto: false});
-
+    Utils.alertDextra("Produto adicionado com sucesso!", "success");
   }
 
   atualizarNovoProdutoCarrinhoAJax = (novoProduto) => {
