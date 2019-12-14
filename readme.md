@@ -51,10 +51,10 @@ Foi criado um count de ids no momento da inicialização do sistema. Desse modo 
 
 #### Frontend
 - Verifique o ip do seu docker, e então, vá no arquivo api.js dentro de **frontend_challenge\src\services\api.js** e descomente se necessário a linha 5 que é o ip do backend caso esteja utilizando docker toolbox
-- Utilizando algum terminal que tenha o docker instalado, entre na pasta do projeto -> entre na pasta frontend_challenge e rode o comando **docker build -f Dockerfile -t lucasbarbosafront/node .**
+- Utilizando algum terminal que tenha o docker instalado, entre na pasta do projeto -> entre na pasta frontend_challenge e rode o comando **docker build -f Dockerfile -t lucasbarbosafront/node .** (é normal que demore um pouco)
 - Em seguida rode o comando **docker run -d -p 3000:3000 lucasbarbosafront/node**
 - Se tiver utilizando Docker toolbox utilize o ip da máquina + a porta (Ex: http://192.168.99.100:3000/) no navegador
-- Se tiver utilizando o docker windows utilize localhost:3000 no navegador
+- Se tiver utilizando o docker windows utilize http://localhost:3000 no navegador
 
 Pronto!
 
