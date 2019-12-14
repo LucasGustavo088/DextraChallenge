@@ -26,6 +26,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
+
+/**
+ * Desafio Dextra: Desenvolvido por Lucas Gustavo Barbosa 
+ * Github: https://github.com/LucasGustavo088/DextraChallenge
+ * */
+
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/produto", produces = "application/json;charset=UTF-8")

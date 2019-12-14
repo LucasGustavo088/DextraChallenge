@@ -23,6 +23,8 @@ Foi criado um count de ids no momento da inicialização do sistema. Desse modo 
 
 ## Como executar?
 
+### Manualmente
+
 - Realize o clone do projeto com o comando: **git clone https://github.com/LucasGustavo088/DextraChallenge**
 - Use o terminal para navegar dentro dela com o comando: **cd DextraChallenge**
 
@@ -39,6 +41,14 @@ Foi criado um count de ids no momento da inicialização do sistema. Desse modo 
 #### Test JUnit
 - Para testar o backend vá no eclipse -> dextrachallenge -> src/test/java -> com.dextrachallenge.dextrachallenge -> Clique com o botão direito no arquivo TesteProduto.java -> run as JUnit Test
 - Na aba JUnit é possível ver se todos os itens de teste na classe foram realizados com sucesso.
+
+### Docker
+
+#### Frontend
+- Utilizando algum terminal que tenha o docker instalado, entre na pasta do projeto -> entre na pasta frontend_challenge e rode o comando **docker build -f Dockerfile -t lucasbarbosafront/node .**
+- Em seguida rode o comando **docker run -d -p 3000:3000 lucasbarbosafront/node**
+- Se tiver utilizando Docker toolbox utilize o ip da máquina + a porta (Ex: http://192.168.99.100:3000/)
+- Se tiver utilizando o docker windows utilize localhost:3000
 
 Pronto!
 
@@ -105,6 +115,7 @@ Inflação        | Os valores dos ingredientes são alterados com frequência e
 - [X] Implementação dos requisitos;
 - [X] Relatório simples de justificativas para escolha do design de código;
 - [X] Instruções para executar;
+- [X] Ambiente virtualizado em Docker com scripts para execução
 
 
 
